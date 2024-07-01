@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="aal4NI" name="LuminousExciter" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+  <MAINGROUP id="Uhfsau" name="LuminousExciter">
+    <GROUP id="{E7C72C3E-6814-FC07-9069-11F488C66CAB}" name="assets"/>
+    <GROUP id="{40ACB57F-3E7A-0EB2-6723-666513CCC4C2}" name="Component">
+      <FILE id="HrIBTA" name="GUIMeter.h" compile="0" resource="0" file="Source/GUIMeter.h"/>
+    </GROUP>
+    <GROUP id="{5F5A8C77-F0FF-668B-7FD2-C3FD16A95378}" name="Source">
+      <FILE id="iYaz9g" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="WJmUL9" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="gzy9Pw" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="jYQxPg" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="LuminousExciter"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="LuminousExciter"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../Users/maciel/Documents/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
