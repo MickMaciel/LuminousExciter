@@ -11,17 +11,19 @@
 
 //==============================================================================
 LuminousExciterAudioProcessor::LuminousExciterAudioProcessor()
-#ifndef JucePlugin_PreferredChannelConfigurations
+
      : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
                        .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                     #endif
                        )
-#endif
 {
+    auto* paramG = apvts.getParameter(gainParamID.getParamID());
+    gainParam = dynamic_cast<juce::AudioParameterFloat*>(paramG);
+    
+    auto* paramE = apvts.getParameter(exciterParamID.getParamID());
+    exciterParam = dynamic_cast<juce::AudioParameterFloat*>(paramE);
+    
+    
 }
 
 LuminousExciterAudioProcessor::~LuminousExciterAudioProcessor()
@@ -93,11 +95,11 @@ void LuminousExciterAudioProcessor::changeProgramName (int index, const juce::St
 //==============================================================================
 void LuminousExciterAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    rmsLevelLeft.reset(sampleRate, 0.2);
-    rmsLevelLeft.reset(sampleRate, 0.2);
+    rmsLevelLeft.reset(sampleRate);
+    rmsLevelLeft.reset(sampleRate);
     
-    rmsLevelLeft.setCurrentAndTargetValue(-96.f);
-    rmsLevelRigth.setCurrentAndTargetValue(-96.f);
+    rmsLevelLeft.setCurrentAndTargetValue(-60.f);
+    rmsLevelRigth.setCurrentAndTargetValue(-60.f);
 }
 
 void LuminousExciterAudioProcessor::releaseResources()
@@ -109,26 +111,7 @@ void LuminousExciterAudioProcessor::releaseResources()
 #ifndef JucePlugin_PreferredChannelConfigurations
 bool LuminousExciterAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
-  #if JucePlugin_IsMidiEffect
-    juce::ignoreUnused (layouts);
-    return true;
-  #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
-    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
-     && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
-        return false;
-
-    // This checks if the input layout matches the output layout
-   #if ! JucePlugin_IsSynth
-    if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
-        return false;
-   #endif
-
-    return true;
-  #endif
+    return layouts.getMainOutputChannelSet() == juce::AudioChannelSet::stereo();
 }
 #endif
 
@@ -136,28 +119,10 @@ void LuminousExciterAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
 {
     juce::ScopedNoDenormals noDenormals;
     
-    {
-        const auto value = juce::Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
-        if (value < rmsLevelLeft.getNextValue())
-        {
-            rmsLevelLeft.setTargetValue(value);
-        }
-        else
-        {
-            rmsLevelLeft.setCurrentAndTargetValue(value);
-        }
-    }
-    {
-        const auto value = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1, 0, buffer.getNumSamples()));
-        if (value < rmsLevelRigth.getNextValue())
-        {
-            rmsLevelRigth.setTargetValue(value);
-        }
-        else
-        {
-            rmsLevelRigth.setCurrentAndTargetValue(value);
-        }
-    }
+    float gainInDecibels = gainParam->get();
+    
+    rmsLevelLeft  = juce::Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
+    rmsLevelRigth = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1 , 0, buffer.getNumSamples()));
 }
 
 //==============================================================================
@@ -184,6 +149,24 @@ void LuminousExciterAudioProcessor::setStateInformation (const void* data, int s
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
+
+juce::AudioProcessorValueTreeState::ParameterLayout LuminousExciterAudioProcessor::createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    
+    layout.add(std::make_unique<juce::AudioParameterFloat>(
+                                                           gainParamID,
+                                                           "Gain",
+                                                           juce::NormalisableRange<float> { -60.f, 24.f },
+                                                           0.0f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(
+                                                           exciterParamID,
+                                                           "Exciter",
+                                                           juce::NormalisableRange<float> { 0.f, 1.f },
+                                                           0.0f));
+    return layout;
+}
+
 
 float LuminousExciterAudioProcessor::getRmsValue(const int channel) const
 {

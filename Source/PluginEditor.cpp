@@ -35,11 +35,12 @@ LuminousExciterAudioProcessorEditor::LuminousExciterAudioProcessorEditor (Lumino
    addAndMakeVisible(meterR);
     
     
-    startTimerHz(30);
+    startTimer(60);
 }
 
 LuminousExciterAudioProcessorEditor::~LuminousExciterAudioProcessorEditor()
 {
+    stopTimer();
 }
 
 //==============================================================================

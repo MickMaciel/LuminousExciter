@@ -10,9 +10,10 @@
 
 #include <JuceHeader.h>
 
+const juce::ParameterID gainParamID { "gain", 1};
+const juce::ParameterID exciterParamID { "exciter", 1};
+
 //==============================================================================
-/**
-*/
 class LuminousExciterAudioProcessor  : public juce::AudioProcessor
 {
 public:
@@ -56,6 +57,16 @@ public:
     float getRmsValue(const int channel) const;
 
 private:
+    
+    juce::AudioParameterFloat* gainParam;
+    juce::AudioParameterFloat* exciterParam;
+    
+    juce::AudioProcessorValueTreeState apvts
+    {
+        *this, nullptr, "Parameters", createParameterLayout()
+    };
+    
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     
     juce::LinearSmoothedValue<float> rmsLevelLeft,  rmsLevelRigth;
         
