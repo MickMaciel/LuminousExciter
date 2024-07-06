@@ -1,0 +1,49 @@
+# Ignorar arquivos e diretórios de sistema
+..
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos e diretórios de compilação
+build/
+Builds/
+
+# Ignorar arquivos específicos de IDE
+*.xcworkspace
+*.xcodeproj
+*.xcuserstate
+*.xcuserdata
+*.xcscheme
+.idea/
+.vscode/
+
+# Ignorar arquivos de dependências de bibliotecas
+node_modules/
+vendor/
+
+# Ignorar arquivos temporários
+*.tmp
+*.swp
+*.bak
+*.log
+
+# Ignorar arquivos e diretórios do JuceLibraryCode
+JuceLibraryCode/
+
+# Ignorar binários e bibliotecas
+*.a
+*.dll
+*.exe
+*.so
+*.dylib
+*.lib
+*.jar
+
+# Ignorar os arquivos listados no projeto
+Builds/MacOSX/build/
+Builds/MacOSX/LuminousExciter.xcodeproj/project.xcworkspace/
+Builds/MacOSX/LuminousExciter.xcodeproj/xcuserdata/
+Builds/MacOSX/LuminousExciter.xcodeproj/xcshareddata/
+Builds/MacOSX/LuminousExciter.xcodeproj/*.plist
+Builds/MacOSX/RecentFilesMenuTemplate.nib
+Builds/MacOSX/build/Debug/
+
