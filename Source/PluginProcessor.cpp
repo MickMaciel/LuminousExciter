@@ -15,7 +15,8 @@ LuminousExciterAudioProcessor::LuminousExciterAudioProcessor()
      : AudioProcessor (BusesProperties()
                        .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                       )
+                       ),
+                       params(apvts)
 {
     auto* paramG = apvts.getParameter(gainParamID.getParamID());
     gainParam = dynamic_cast<juce::AudioParameterFloat*>(paramG);
@@ -119,7 +120,7 @@ void LuminousExciterAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
 {
     juce::ScopedNoDenormals noDenormals;
     
-    float gainInDecibels = gainParam->get();
+    float gain = params.gain;
     
     rmsLevelLeft  = juce::Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
     rmsLevelRigth = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1 , 0, buffer.getNumSamples()));
@@ -162,7 +163,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout LuminousExciterAudioProcesso
     layout.add(std::make_unique<juce::AudioParameterFloat>(
                                                            exciterParamID,
                                                            "Exciter",
-                                                           juce::NormalisableRange<float> { 0.f, 1.f },
+                                                           juce::NormalisableRange<float> { 1.f, 10.f },
                                                            0.0f));
     return layout;
 }

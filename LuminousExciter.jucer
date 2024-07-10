@@ -8,6 +8,10 @@
       <FILE id="HrIBTA" name="GUIMeter.h" compile="0" resource="0" file="Source/GUIMeter.h"/>
     </GROUP>
     <GROUP id="{5F5A8C77-F0FF-668B-7FD2-C3FD16A95378}" name="Source">
+      <FILE id="yZGCPA" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters.cpp"/>
+      <FILE id="ZAlwtW" name="Parameters.h" compile="0" resource="0" file="Source/Parameters.h"/>
+      <FILE id="C7pTCQ" name="LookAndFeel.cpp" compile="1" resource="0" file="Source/LookAndFeel.cpp"/>
+      <FILE id="AabjoP" name="LookAndFeel.h" compile="0" resource="0" file="Source/LookAndFeel.h"/>
       <FILE id="iYaz9g" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="WJmUL9" name="PluginProcessor.h" compile="0" resource="0"

@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "Parameters.h"
 
 //==============================================================================
 LuminousExciterAudioProcessorEditor::LuminousExciterAudioProcessorEditor (LuminousExciterAudioProcessor& p)
@@ -23,7 +24,7 @@ LuminousExciterAudioProcessorEditor::LuminousExciterAudioProcessorEditor (Lumino
     luminousGroup.addAndMakeVisible (brightButton);
     luminousGroup.addAndMakeVisible(eightKButton);
     luminousGroup.addAndMakeVisible(twelveKButton);
-    luminousGroup.addAndMakeVisible(fifteenKButton);
+    luminousGroup.addAndMakeVisible(sixteenKButton);
     addAndMakeVisible(luminousGroup);
     
     gainGroup.setText("Gain");
@@ -64,7 +65,7 @@ void LuminousExciterAudioProcessorEditor::paint (juce::Graphics& g)
     brightButton.setButtonText ("Luminous");
     eightKButton.setButtonText ("8kHz");
     twelveKButton.setButtonText ("12kHz");
-    fifteenKButton.setButtonText ("15kHz");
+    sixteenKButton.setButtonText ("15kHz");
     
     gainSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     gainSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 60, 20);
@@ -73,7 +74,6 @@ void LuminousExciterAudioProcessorEditor::paint (juce::Graphics& g)
 
 void LuminousExciterAudioProcessorEditor::resized()
 {
-    // auto bounds = getLocalBounds();
     int margin = 10;
     int groupWidth = 185;
     int groupHeight = 180;
@@ -85,7 +85,7 @@ void LuminousExciterAudioProcessorEditor::resized()
     brightButton.setBounds (margin, margin * 3, 200, 30);
     eightKButton.setBounds (margin, margin * 8, 60, 30);
     twelveKButton.setBounds (margin * 2 + 60, margin * 8, 60, 30);
-    fifteenKButton.setBounds (margin * 3 + 120, margin * 8, 60, 30);
+    sixteenKButton.setBounds (margin * 3 + 120, margin * 8, 60, 30);
     
     gainGroup.setBounds (margin * 3 + (groupWidth * 2 + 40), margin, groupWidth, groupHeight);
     gainSlider.setBounds (margin, margin * 2, 160, 150);

@@ -57,6 +57,7 @@ public:
     float getRmsValue(const int channel) const;
 
 private:
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     
     juce::AudioParameterFloat* gainParam;
     juce::AudioParameterFloat* exciterParam;
@@ -66,7 +67,7 @@ private:
         *this, nullptr, "Parameters", createParameterLayout()
     };
     
-    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    Parameters params;
     
     juce::LinearSmoothedValue<float> rmsLevelLeft,  rmsLevelRigth;
         

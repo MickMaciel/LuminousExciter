@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "GUIMeter.h"
+#include "Parameters.h"
 
 //==============================================================================
 /**
@@ -36,7 +37,7 @@ private:
     juce::Slider gainSlider;
     juce::TextButton eightKButton;
     juce::TextButton twelveKButton;
-    juce::TextButton fifteenKButton;
+    juce::TextButton sixteenKButton;
     juce::TextButton brightButton;
     
     GUI::GUIMeter meterL, meterR;
