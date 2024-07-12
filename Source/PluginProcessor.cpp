@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "Parameters.h"
 
 //==============================================================================
 LuminousExciterAudioProcessor::LuminousExciterAudioProcessor()
@@ -18,11 +19,11 @@ LuminousExciterAudioProcessor::LuminousExciterAudioProcessor()
                        ),
                        params(apvts)
 {
-    auto* paramG = apvts.getParameter(gainParamID.getParamID());
-    gainParam = dynamic_cast<juce::AudioParameterFloat*>(paramG);
+    auto* param = apvts.getParameter(gainParamID.getParamID());
+    gainParam = dynamic_cast<juce::AudioParameterFloat*>(param);
     
-    auto* paramE = apvts.getParameter(exciterParamID.getParamID());
-    exciterParam = dynamic_cast<juce::AudioParameterFloat*>(paramE);
+    //auto* param = apvts.getParameter(exciterParamID.getParamID());
+    //exciterParam = dynamic_cast<juce::AudioParameterFloat*>(param);
     
     
 }
@@ -96,6 +97,9 @@ void LuminousExciterAudioProcessor::changeProgramName (int index, const juce::St
 //==============================================================================
 void LuminousExciterAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    params.prepareToPlay(sampleRate);
+    params.reset();
+    
     rmsLevelLeft.reset(sampleRate);
     rmsLevelLeft.reset(sampleRate);
     
@@ -120,7 +124,27 @@ void LuminousExciterAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
 {
     juce::ScopedNoDenormals noDenormals;
     
-    float gain = params.gain;
+    auto totalNumInputChannels  = getTotalNumInputChannels();
+    auto totalNumOutputchannels = getTotalNumOutputChannels();
+    
+    for (auto i = totalNumInputChannels; i < totalNumOutputchannels; ++i)
+    {
+        buffer.clear(i, 0, buffer.getNumSamples());
+    }
+    
+    //float gainInDecibels = parans,gainParam->get();
+    params.update();
+    
+    float* channelDataL = buffer.getWritePointer(0);
+    float* channelDataR = buffer.getWritePointer(1);
+    
+    for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+    {
+        params.smoothen();
+        
+        channelDataL[sample] *= params.gain;
+        channelDataR[sample] *= params.gain;
+    }
     
     rmsLevelLeft  = juce::Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
     rmsLevelRigth = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1 , 0, buffer.getNumSamples()));
@@ -140,34 +164,17 @@ juce::AudioProcessorEditor* LuminousExciterAudioProcessor::createEditor()
 //==============================================================================
 void LuminousExciterAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    copyXmlToBinary(*apvts.copyState().createXml(), destData);
 }
 
 void LuminousExciterAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<juce::XmlElement>xml(getXmlFromBinary(data, sizeInBytes));
+    if (xml.get() != nullptr && xml->hasTagName(apvts.state.getType()))
+    {
+        apvts.replaceState( juce::ValueTree::fromXml(*xml));
+    }
 }
-
-juce::AudioProcessorValueTreeState::ParameterLayout LuminousExciterAudioProcessor::createParameterLayout()
-{
-    juce::AudioProcessorValueTreeState::ParameterLayout layout;
-    
-    layout.add(std::make_unique<juce::AudioParameterFloat>(
-                                                           gainParamID,
-                                                           "Gain",
-                                                           juce::NormalisableRange<float> { -60.f, 24.f },
-                                                           0.0f));
-    layout.add(std::make_unique<juce::AudioParameterFloat>(
-                                                           exciterParamID,
-                                                           "Exciter",
-                                                           juce::NormalisableRange<float> { 1.f, 10.f },
-                                                           0.0f));
-    return layout;
-}
-
 
 float LuminousExciterAudioProcessor::getRmsValue(const int channel) const
 {
@@ -179,6 +186,7 @@ float LuminousExciterAudioProcessor::getRmsValue(const int channel) const
     
     return 0.f;
 }
+
 
 //==============================================================================
 // This creates new instances of the plugin..

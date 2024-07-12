@@ -10,6 +10,7 @@
 #include "PluginEditor.h"
 #include "Parameters.h"
 
+
 //==============================================================================
 LuminousExciterAudioProcessorEditor::LuminousExciterAudioProcessorEditor (LuminousExciterAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
