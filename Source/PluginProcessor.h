@@ -63,6 +63,7 @@ private:
     
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     juce::AudioParameterFloat* gainParam;
+    juce::AudioParameterFloat* exciterParam;
     Parameters params;
     
     juce::LinearSmoothedValue<float> rmsLevelLeft,  rmsLevelRigth;
