@@ -47,10 +47,10 @@ private:
         audioProcessor.apvts, gainParamID.getParamID(), gainSlider
     };
 
-    //juce::AudioProcessorValueTreeState::SliderAttachment exciterAttachment
-    //{
-    //    audioProcessor.apvts, exciterParamId.getParamID(), exciterSlider
-    //};
+    juce::AudioProcessorValueTreeState::SliderAttachment exciterAttachment
+    {
+        audioProcessor.apvts, exciterParamId.getParamID(), exciterSlider
+    };
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LuminousExciterAudioProcessorEditor)
