@@ -22,8 +22,8 @@ LuminousExciterAudioProcessor::LuminousExciterAudioProcessor()
     auto* param = apvts.getParameter(gainParamID.getParamID());
     gainParam = dynamic_cast<juce::AudioParameterFloat*>(param);
     
-    //auto* param = apvts.getParameter(exciterParamID.getParamID());
-    //exciterParam = dynamic_cast<juce::AudioParameterFloat*>(param);
+    auto* param = apvts.getParameter(exciterParamID.getParamID());
+    exciterParam = dynamic_cast<juce::AudioParameterFloat*>(param);
     
     
 }
