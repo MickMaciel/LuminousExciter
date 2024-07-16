@@ -3,7 +3,7 @@
 #include <JuceHeader.h>
 
 const juce::ParameterID gainParamID ( "Gain", 1 );
-//const juce::ParameterID exciterParamID ( "Exciter", 1 );
+const juce::ParameterID exciterParamID ( "Exciter", 1 );
 
 class Parameters
 {
@@ -24,7 +24,7 @@ public:
 private:
     
     juce::AudioParameterFloat* gainParam;
-    //juce::AudioParameterFloat* exciterParam;
+    juce::AudioParameterFloat* exciterParam;
     juce::LinearSmoothedValue<float> gainSmoother;
     
     
