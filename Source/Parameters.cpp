@@ -11,7 +11,7 @@ static void castParameter(juce::AudioProcessorValueTreeState& apvts,
 Parameters::Parameters(juce::AudioProcessorValueTreeState& apvts)
 {
     castParameter(apvts, gainParamID, gainParam);
-    //castParameter(apvts, exciterParamID, exciterParam);
+    castParameter(apvts, exciterParamID, exciterParam);
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout
@@ -24,11 +24,11 @@ Parameters::createParameterLayout()
                                                            "Gain",
                                                            juce::NormalisableRange<float> { -60.0f, 24.0f },
                                                            0.0f));
-    //layout.add(std::make_unique<juce::AudioParameterFloat>(
-                                                           //exciterParamID,
-                                                          // "Exciter",
-                                                           //juce::NormalisableRange<float> { -1.0f, 10.0f },
-                                                          // 0.0f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(
+                                                           exciterParamID,
+                                                           "Exciter",
+                                                           juce::NormalisableRange<float> { -1.0f, 10.0f },
+                                                           0.0f));
     
     return layout;
 }
