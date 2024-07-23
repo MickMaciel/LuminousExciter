@@ -20,6 +20,7 @@ public:
     void smoothen() noexcept;
     
     float gain = 0.0f;
+    float exciterAmount = 0.0f;
     
 private:
     

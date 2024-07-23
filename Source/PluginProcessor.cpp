@@ -19,10 +19,10 @@ LuminousExciterAudioProcessor::LuminousExciterAudioProcessor()
                        ),
                        params(apvts)
 {
-    auto* param = apvts.getParameter(gainParamID.getParamID());
+    auto* param = apvts.getParameter( "Gain" );
     gainParam = dynamic_cast<juce::AudioParameterFloat*>(param);
     
-    auto* param = apvts.getParameter(exciterParamID.getParamID());
+    param = apvts.getParameter( "Exciter" );
     exciterParam = dynamic_cast<juce::AudioParameterFloat*>(param);
     
     
@@ -101,10 +101,10 @@ void LuminousExciterAudioProcessor::prepareToPlay (double sampleRate, int sample
     params.reset();
     
     rmsLevelLeft.reset(sampleRate);
-    rmsLevelLeft.reset(sampleRate);
+    rmsLevelRigth.reset(sampleRate);
     
-    rmsLevelLeft.setCurrentAndTargetValue(-60.f);
-    rmsLevelRigth.setCurrentAndTargetValue(-60.f);
+    rmsLevelLeft.setCurrentAndTargetValue(-96.f);
+    rmsLevelRigth.setCurrentAndTargetValue(-96.f);
 }
 
 void LuminousExciterAudioProcessor::releaseResources()
@@ -132,11 +132,12 @@ void LuminousExciterAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
         buffer.clear(i, 0, buffer.getNumSamples());
     }
     
-    //float gainInDecibels = parans,gainParam->get();
     params.update();
     
     float* channelDataL = buffer.getWritePointer(0);
     float* channelDataR = buffer.getWritePointer(1);
+    
+    float exciterAmount = exciterParam ? *exciterParam : 0.0f  ;
     
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
@@ -144,10 +145,13 @@ void LuminousExciterAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
         
         channelDataL[sample] *= params.gain;
         channelDataR[sample] *= params.gain;
+        
+        //float distortedSampleL = std::tanh(exciterAmount * channelDataL[sample]);
+        //float distortedSampleR = std::tanh(exciterAmount * channelDataR[sample]);
     }
-    
+   
     rmsLevelLeft  = juce::Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
-    rmsLevelRigth = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1 , 0, buffer.getNumSamples()));
+    rmsLevelRigth = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1, 0, buffer.getNumSamples()));
 }
 
 //==============================================================================
@@ -194,3 +198,4 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new LuminousExciterAudioProcessor();
 }
+

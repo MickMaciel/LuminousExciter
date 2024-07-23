@@ -1,19 +1,10 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "Parameters.h"
 
-
-//==============================================================================
+    //==============================================================================
 LuminousExciterAudioProcessorEditor::LuminousExciterAudioProcessorEditor (LuminousExciterAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+: AudioProcessorEditor (&p), audioProcessor (p)
 {
     setSize (640, 300);
     
@@ -31,21 +22,33 @@ LuminousExciterAudioProcessorEditor::LuminousExciterAudioProcessorEditor (Lumino
     gainGroup.setText("Gain");
     gainGroup.addAndMakeVisible (gainSlider);
     addAndMakeVisible(gainGroup);
-
-   
-   addAndMakeVisible(meterL);
-   addAndMakeVisible(meterR);
     
+    addAndMakeVisible(meterL);
+    addAndMakeVisible(meterR);
+    
+        // Aplica a aparência personalizada aos sliders
+    exciterSlider.setLookAndFeel(&knobLookAndFeel);
+    gainSlider.setLookAndFeel(&knobLookAndFeel);
+    brightButton.setLookAndFeel(&knobLookAndFeel);
+    eightKButton.setLookAndFeel(&knobLookAndFeel);
+    twelveKButton.setLookAndFeel(&knobLookAndFeel);
+    sixteenKButton.setLookAndFeel(&knobLookAndFeel);
+    meterL.setLookAndFeel(&knobLookAndFeel);
+    meterR.setLookAndFeel(&knobLookAndFeel);
     
     startTimer(60);
 }
 
 LuminousExciterAudioProcessorEditor::~LuminousExciterAudioProcessorEditor()
 {
+        // Restaura a aparência padrão dos sliders
+    exciterSlider.setLookAndFeel(nullptr);
+    gainSlider.setLookAndFeel(nullptr);
+    
     stopTimer();
 }
 
-//==============================================================================
+    //==============================================================================
 void LuminousExciterAudioProcessorEditor::timerCallback()
 {
     meterL.setLevel(audioProcessor.getRmsValue(0));
@@ -57,30 +60,32 @@ void LuminousExciterAudioProcessorEditor::timerCallback()
 
 void LuminousExciterAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll (juce::Colours::black);
+    g.fillAll (Colors::background);
     
     exciterSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
-    exciterSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 60, 20);
-    exciterSlider.setRange (0.0, 1.0, 0.1);
+    exciterSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 60, 20 );
+    exciterSlider.setRange (1.0f, 12.0f, 1.0f);
+    exciterSlider.setNumDecimalPlacesToDisplay(1);
     
     brightButton.setButtonText ("Luminous");
     eightKButton.setButtonText ("8kHz");
     twelveKButton.setButtonText ("12kHz");
-    sixteenKButton.setButtonText ("15kHz");
+    sixteenKButton.setButtonText ("16kHz");
     
     gainSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
-    gainSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 60, 20);
-    gainSlider.setRange (-60.0, 24.0, 1.0);
+    gainSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 60, 20 );
+    gainSlider.setRange (-48.0f, 24.0f, 1.0f );
+    gainSlider.setNumDecimalPlacesToDisplay(1);
 }
 
 void LuminousExciterAudioProcessorEditor::resized()
 {
     int margin = 10;
-    int groupWidth = 185;
+    int groupWidth = 180;
     int groupHeight = 180;
     
     exciterGroup.setBounds (margin, margin, groupWidth, groupHeight);
-    exciterSlider.setBounds (margin, margin * 2, 160, 150);
+    exciterSlider.setBounds (margin, margin * 2, 150, 150);
     
     luminousGroup.setBounds (margin * 2 + groupWidth, margin * 7, groupWidth + 40, groupHeight - 60);
     brightButton.setBounds (margin, margin * 3, 200, 30);
@@ -89,7 +94,7 @@ void LuminousExciterAudioProcessorEditor::resized()
     sixteenKButton.setBounds (margin * 3 + 120, margin * 8, 60, 30);
     
     gainGroup.setBounds (margin * 3 + (groupWidth * 2 + 40), margin, groupWidth, groupHeight);
-    gainSlider.setBounds (margin, margin * 2, 160, 150);
+    gainSlider.setBounds (margin, margin * 2, 150, 150);
     
     meterL.setBounds (margin, 265, getWidth() - margin * 2, 12);
     meterR.setBounds (margin, 280, getWidth() - margin * 2, 12);
