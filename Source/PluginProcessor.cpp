@@ -101,10 +101,10 @@ void LuminousExciterAudioProcessor::prepareToPlay (double sampleRate, int sample
     params.reset();
     
     rmsLevelLeft.reset(sampleRate);
-    rmsLevelRigth.reset(sampleRate);
+    rmsLevelRight.reset(sampleRate);
     
     rmsLevelLeft.setCurrentAndTargetValue(-96.f);
-    rmsLevelRigth.setCurrentAndTargetValue(-96.f);
+    rmsLevelRight.setCurrentAndTargetValue(-96.f);
 }
 
 void LuminousExciterAudioProcessor::releaseResources()
@@ -122,36 +122,45 @@ bool LuminousExciterAudioProcessor::isBusesLayoutSupported (const BusesLayout& l
 
 void LuminousExciterAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+        // Desabilita o modo de denormalização para evitar problemas de desempenho com números muito pequenos.
     juce::ScopedNoDenormals noDenormals;
     
+        // Obtém o número total de canais de entrada.
     auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputchannels = getTotalNumOutputChannels();
+        // Obtém o número total de canais de saída.
+    auto totalNumOutputChannels = getTotalNumOutputChannels();
     
-    for (auto i = totalNumInputChannels; i < totalNumOutputchannels; ++i)
+        // Limpa os canais de saída que não estão sendo usados.
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
     {
         buffer.clear(i, 0, buffer.getNumSamples());
     }
     
+        // Atualiza os parâmetros (supondo que `params.update()` atualize os parâmetros internos).
     params.update();
     
+        // Obtém ponteiros para os dados de escrita dos canais esquerdo e direito do buffer.
     float* channelDataL = buffer.getWritePointer(0);
     float* channelDataR = buffer.getWritePointer(1);
     
-    float exciterAmount = exciterParam ? *exciterParam : 0.0f  ;
-    
+        // Loop através de cada amostra no buffer.
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
+            // Suaviza os parâmetros (supondo que `params.smoothen()` ajuste os parâmetros internamente).
         params.smoothen();
         
+            // Aplica o ganho aos dados dos canais esquerdo e direito.
         channelDataL[sample] *= params.gain;
         channelDataR[sample] *= params.gain;
         
-        //float distortedSampleL = std::tanh(exciterAmount * channelDataL[sample]);
-        //float distortedSampleR = std::tanh(exciterAmount * channelDataR[sample]);
+            // Aplica distorção usando a função tanh ao canal esquerdo e direito.
+        channelDataL[sample] = std::tanh(params.exciterAmount * channelDataL[sample]);
+        channelDataR[sample] = std::tanh(params.exciterAmount * channelDataR[sample]);
     }
-   
+    
+        // Calcula o nível RMS em decibéis para os canais esquerdo e direito.
     rmsLevelLeft  = juce::Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
-    rmsLevelRigth = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1, 0, buffer.getNumSamples()));
+    rmsLevelRight = juce::Decibels::gainToDecibels(buffer.getRMSLevel(1, 0, buffer.getNumSamples()));
 }
 
 //==============================================================================
@@ -186,7 +195,7 @@ float LuminousExciterAudioProcessor::getRmsValue(const int channel) const
     if (channel == 0)
         return rmsLevelLeft.getCurrentValue();
     if (channel == 1)
-        return rmsLevelRigth.getCurrentValue();
+        return rmsLevelRight.getCurrentValue();
     
     return 0.f;
 }

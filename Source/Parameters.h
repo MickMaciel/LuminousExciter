@@ -20,13 +20,15 @@ public:
     void smoothen() noexcept;
     
     float gain = 0.0f;
-    float exciterAmount = 0.0f;
+    float exciterAmount = 1.0f;
+    juce::AudioParameterFloat* exciterParam;
     
 private:
     
     juce::AudioParameterFloat* gainParam;
-    juce::AudioParameterFloat* exciterParam;
+    
     juce::LinearSmoothedValue<float> gainSmoother;
+    juce::LinearSmoothedValue<float> exciterSmoother;
     
     
 };

@@ -66,7 +66,7 @@ private:
     juce::AudioParameterFloat* exciterParam;
     Parameters params;
     
-    juce::LinearSmoothedValue<float> rmsLevelLeft,  rmsLevelRigth;
+    juce::LinearSmoothedValue<float> rmsLevelLeft,  rmsLevelRight;
         
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LuminousExciterAudioProcessor)

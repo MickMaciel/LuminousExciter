@@ -22,13 +22,13 @@ Parameters::createParameterLayout()
     layout.add(std::make_unique<juce::AudioParameterFloat>(
                                                            gainParamID,
                                                            "Gain",
-                                                           juce::NormalisableRange<float> { -48.0f, 24.0f },
+                                                           juce::NormalisableRange<float> { -60.0f, 24.0f },
                                                            0.0f));
     layout.add(std::make_unique<juce::AudioParameterFloat>(
                                                            exciterParamID,
                                                           "Exciter",
-                                                           juce::NormalisableRange<float> { 1.0f, 12.0f },
-                                                          0.0f));
+                                                           juce::NormalisableRange<float> { 1.0f, 10.0f },
+                                                          1.0f));
     
     return layout;
 }
@@ -37,23 +37,30 @@ void Parameters::prepareToPlay(double sampleRate) noexcept
 {
     double duration = 0.02;
     gainSmoother.reset(sampleRate, duration);
+    exciterSmoother.reset(sampleRate, duration);
 }
 
 void Parameters::reset() noexcept
 {
     gain = 0.0f;
-    exciterAmount = 0.0f;
+    exciterAmount = 1.0f;
     
     gainSmoother.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(gainParam->get()));
+    exciterSmoother.setCurrentAndTargetValue(exciterParam->get());
 }
+
 
 void Parameters::update() noexcept
 {
     gainSmoother.setTargetValue(juce::Decibels::decibelsToGain(gainParam->get()));
+    exciterSmoother.setTargetValue(exciterParam->get());
 }
+
 
 void Parameters::smoothen() noexcept
 {
     gain = gainSmoother.getNextValue();
-    
+    exciterAmount = exciterSmoother.getNextValue();
 }
+
+

@@ -64,7 +64,7 @@ void LuminousExciterAudioProcessorEditor::paint (juce::Graphics& g)
     
     exciterSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     exciterSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 60, 20 );
-    exciterSlider.setRange (1.0f, 12.0f, 1.0f);
+    exciterSlider.setRange (1.0f, 10.0f, 1.0f);
     exciterSlider.setNumDecimalPlacesToDisplay(1);
     
     brightButton.setButtonText ("Luminous");
@@ -74,7 +74,7 @@ void LuminousExciterAudioProcessorEditor::paint (juce::Graphics& g)
     
     gainSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     gainSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 60, 20 );
-    gainSlider.setRange (-48.0f, 24.0f, 1.0f );
+    gainSlider.setRange (-60.0f, 24.0f, 1.0f );
     gainSlider.setNumDecimalPlacesToDisplay(1);
 }
 
