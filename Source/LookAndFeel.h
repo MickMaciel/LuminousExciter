@@ -4,29 +4,26 @@
 
 namespace Colors
 {
-    const juce::Colour background { juce::Colour(1, 1, 1) }; // Very light grey background
-    const juce::Colour header { juce::Colour(50, 50, 50) }; // Dark grey header
-    
     namespace Knob
     {
-        const juce::Colour trackBackground { juce::Colour(220, 220, 220) }; // Light grey track background
-        const juce::Colour trackActive { juce::Colour(150, 150, 150) }; // Medium grey track active
-        const juce::Colour outline { juce::Colour(240, 240, 240) }; // Light grey outline
-        const juce::Colour gradientTop { juce::Colour(180, 180, 180) }; // Medium grey gradient top
-        const juce::Colour gradientBottom { juce::Colour(1, 1, 1) }; // Medium grey gradient bottom
-        const juce::Colour dial { juce::Colour(10, 10, 10) }; // Almost black dial
-        const juce::Colour dropShadow { juce::Colour(150, 150, 150) }; // Medium grey drop shadow
-        const juce::Colour label { juce::Colour(60, 60, 60) }; // Dark grey label
-        const juce::Colour textBoxBackground { juce::Colour(23, 23, 23) }; // Light grey text box background
-        const juce::Colour value { juce::Colour(240, 240, 240) }; // Dark grey value text
-        const juce::Colour caret { juce::Colour(60, 60, 60) }; // Dark grey caret
+        const juce::Colour trackBackground { juce::Colour(220, 220, 220) }; // Fundo do track em cinza claro
+        const juce::Colour trackActive { juce::Colour(255, 127, 0) }; // Track ativo em laranja
+        const juce::Colour outline { juce::Colour(240, 240, 240) }; // Contorno em cinza claro
+        const juce::Colour gradientTop { juce::Colour(200, 200, 200) }; // Gradiente superior em cinza médio
+        const juce::Colour gradientBottom { juce::Colour(1, 1, 1) }; // Gradiente inferior em cinza escuro
+        const juce::Colour dial { juce::Colour(10, 10, 10) }; // Ponteiro quase preto
+        const juce::Colour dropShadow { juce::Colour(150, 150, 150) }; // Sombra em cinza médio
+        const juce::Colour label { juce::Colour(60, 60, 60) }; // Cor do rótulo em cinza escuro
+        const juce::Colour textBoxBackground { juce::Colour(23, 23, 23) }; // Fundo da caixa de texto em cinza escuro
+        const juce::Colour value { juce::Colour(240, 240, 240) }; // Cor do texto de valor em cinza claro
+        const juce::Colour caret { juce::Colour(60, 60, 60) }; // Cor do cursor em cinza escuro
     }
-    
+
     namespace Button
     {
-        const juce::Colour text { juce::Colour(60, 60, 60) }; // Dark grey text
-        const juce::Colour background { juce::Colour(21, 21, 21) }; // grey background
-        const juce::Colour border { juce::Colour(180, 180, 180) }; // Medium grey border
+        const juce::Colour text { juce::Colour(60, 60, 60) }; // Texto cinza escuro
+        const juce::Colour background { juce::Colour(21, 21, 21) }; // Fundo cinza médio
+        const juce::Colour border { juce::Colour(180, 180, 180) }; // Borda cinza médio
     }
 }
 
